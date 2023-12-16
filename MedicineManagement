@@ -1,0 +1,104 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Medicine {
+    private String name;
+    private int quantity;
+    private double price;
+
+    public Medicine(String name, int quantity, double price) {
+        this.name = name;
+        this.quantity = quantity;
+        this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return "Medicine: " + name + "\nQuantity: " + quantity + "\nPrice: $" + price;
+    }
+}
+
+class MedicineInventory {
+    private ArrayList<Medicine> medicines;
+
+    public MedicineInventory() {
+        medicines = new ArrayList<>();
+    }
+
+    public void addMedicine(String name, int quantity, double price) {
+        Medicine newMedicine = new Medicine(name, quantity, price);
+        medicines.add(newMedicine);
+        System.out.println("Medicine added successfully:\n" + newMedicine);
+    }
+
+    public void displayMedicines() {
+        if (medicines.isEmpty()) {
+            System.out.println("No medicines in the inventory.");
+        } else {
+            System.out.println("List of Medicines in the Inventory:");
+            for (Medicine medicine : medicines) {
+                System.out.println(medicine + "\n");
+            }
+        }
+    }
+
+    public void searchMedicine(String name) {
+        for (Medicine medicine : medicines) {
+            if (medicine.toString().toLowerCase().contains(name.toLowerCase())) {
+                System.out.println("Medicine found:\n" + medicine);
+                return;
+            }
+        }
+        System.out.println("Medicine not found in the inventory.");
+    }
+}
+
+public class MedicineManagementSystem {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        MedicineInventory medicineInventory = new MedicineInventory();
+
+        while (true) {
+            System.out.println("\nMedicine Management System");
+            System.out.println("1. Add a new medicine");
+            System.out.println("2. Display medicines");
+            System.out.println("3. Search for a medicine");
+            System.out.println("4. Exit");
+
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter medicine name: ");
+                    String name = scanner.next();
+
+                    System.out.print("Enter quantity: ");
+                    int quantity = scanner.nextInt();
+
+                    System.out.print("Enter price: ");
+                    double price = scanner.nextDouble();
+
+                    medicineInventory.addMedicine(name, quantity, price);
+                    break;
+
+                case 2:
+                    medicineInventory.displayMedicines();
+                    break;
+
+                case 3:
+                    System.out.print("Enter medicine name to search: ");
+                    String searchName = scanner.next();
+                    medicineInventory.searchMedicine(searchName);
+                    break;
+
+                case 4:
+                    System.out.println("Exiting the system. Goodbye!");
+                    System.exit(0);
+
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+}
